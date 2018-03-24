@@ -1,0 +1,65 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}我的任务{% endblock %}
+{% block sidenav %}
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'index' %}"> 开始标注<div>            </div></a></li>
+    <li  class="active" style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'mytask' %}"> 我的任务</a></li>
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myCollection' %}"> 我的收藏</a></li>
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myHistory' %}"> 我的历史</a></li>
+    {% if request.user.is_superuser %}
+        <li  style="width: 150px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'go2check_feedback_html' %}"> 查看反馈<span id="badge" class="badge">{{ badge_num }}</span></a></li>
+    {% else %}
+        <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myFeedBack' %}"> 我的反馈</a></li>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="row" style="margin-top: 10px;" >
+
+        <div class="container col-md-11" >
+            <ul id="myTab" class="nav nav-tabs" >
+                <li class="active">
+                    <a id="mytask" href="#my_task" data-toggle="tab"><h2>我的任务</h2></a>
+                </li>
+                <li>
+                    <a id="taskManger" href="#taskManager" data-toggle="tab"><h2>任务管理</h2></a>
+                </li>
+            </ul>
+            <hr>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="my_task">
+                    <table id="MyTaskList"></table>
+                </div>
+                <div class="tab-pane fade" id="taskManager">
+                    <table id="TaskManagerTable"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascript_file %}
+    <script src="{% static 'js/fpm/mytask.js' %}"></script>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+{#   页面加载完成后执行 #}
+    $(function () {
+        MyTaskList();
+        TaskManagerTable();
+    });
+    $(function () {
+		$('#myTab li:eq(0) a').tab('show');
+	});
+{#    $('#mytask').onclick(function () {#}
+{#        refreshTable_mytask();#}
+{#    })#}
+{#    $('#taskManger').onclick(function () {#}
+{#        refreshTable_taskManger();#}
+{#    })#}
+
+
+</script>
+{% endblock %}
+

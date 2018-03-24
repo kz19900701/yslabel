@@ -1,0 +1,460 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}开始标注{% endblock %}
+{% block sidenav %}
+    <li  class="active" style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'index' %}"> 开始标注<div>            </div></a></li>
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'mytask' %}"> 我的任务</a></li>
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myCollection' %}"> 我的收藏</a></li>
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myHistory' %}"> 我的历史</a></li>
+    {% if request.user.is_superuser %}
+        <li  style="width: 150px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'go2check_feedback_html' %}"> 查看反馈<span id="badge" class="badge">{{ badge_num }}</span></a></li>
+    {% else %}
+        <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myFeedBack' %}"> 我的反馈</a></li>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-11">
+            <ol class="breadcrumb" style="margin-bottom:20px;">
+                <li><span id="settings_top">当前批次</span></li>
+                <li><span id="settings_name">{{ settings_name }}</span></li>
+                <li style="display: none"><span id="settings_id">{{ settings_id }}</span></li>
+            </ol>
+        </div>
+    </div>
+    <div class="row" >
+        <div id="extract" class="col-md-12" style="display:none;margin-bottom: 20px">
+            <div class="row" style="margin-bottom: 20px" >
+                <div class="col-md-offset-1">
+                    <div class="row">
+                        <div id="keywords" style="line-height:25px;width:80%;margin-bottom: 10px"></div>
+                    </div>
+                    <div class="row">
+                        <p id="content" class="content" style="line-height:40px;width: 80%;font-family:'微软雅黑 Light';font-weight: bold;font-size: 18px"></p>
+                    </div>
+                    <!--<div class="row">-->
+                        <!--<div id="extract-buttons" style="margin-bottom:20px;width: 80%;display: inline-block;"></div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 20px">
+                <div class="col-md-offset-1">
+                    <div id="extract-buttons" style="margin-bottom:20px;width: 80%;display: inline-block;"></div>
+                </div>
+            </div>
+
+            <div class="row" >
+                <div class="col-md-offset-2">
+                    <button id="nextExtract" data-toggle="tooltip" data-placement="bottom"  title="Alt+Q" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">下一个</span></button>
+                    <button id="collectExtract" data-toggle="tooltip" data-placement="bottom"  title="Alt+C" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">收藏</span></button>
+                    <button id="discollectExtract" class="btn btn-circle-micro" style="display:none; border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">取消收藏</span></button>
+                    <button id="resetExtract" data-toggle="tooltip" data-placement="bottom"  title="Alt+R" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">重置</span></button>
+                    <button id="dirtyDataExtract" data-toggle="tooltip" data-placement="bottom"  title="Alt+D" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">脏数据</span></button>
+                    <button id="feedbackExtract" data-toggle="modal" data-target="#FeedBack" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">问题反馈</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div id="classfy" class="col-md-12" style="display:none;margin-bottom: 20px" >
+            <div class="row" style="margin-bottom: 20px">
+                <div class="col-md-1"></div>
+                <div class="col-md-11" >
+                    <p id="classfy_content" class="content " style="line-height:35px;width: 760px;font-family:'微软雅黑';font-size: 20px"></p>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <div class="row" style="margin-bottom: 20px" >
+                <div class="col-md-1"></div>
+                <div class="col-md-10" >
+                    <div id="classfy-buttons"   style="margin-bottom:20px;width:601px;display: inline-block; "  ></div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <div class="row" >
+                <div class="col-md-offset-2">
+                        <button id="nextClassfy" data-toggle="tooltip" data-placement="bottom"  title="Alt+Q" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">下一个</span></button>
+                        <button id="collectClassfy" data-toggle="tooltip" data-placement="bottom"  title="Alt+C" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">收&nbsp&nbsp藏</span></button>
+                        <button id="discollectClassfy" class="btn btn-circle-micro" style="display:none; border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">取消收藏</span></button>
+                        <button id="resetClassfy" data-toggle="tooltip" data-placement="bottom"  title="Alt+R" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">重&nbsp&nbsp置</span></button>
+                        <button id="dirtyDataClassfy" data-toggle="tooltip" data-placement="bottom"  title="Alt+D" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">脏数据</span></button>
+                        <button id="feedbackClassfy" data-toggle="modal" data-target="#FeedBack" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">问题反馈</span></button>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="relation" class="col-md-12" style="margin-bottom: 20px" >
+            <div class="row" style="margin-bottom: 20px" >
+                <div class="col-md-offset-1">
+                    <div class="row">
+                        <p id="relation_content" class="content" style="line-height:40px;width: 80%;font-family:'微软雅黑 Light';font-weight: bold;font-size: 18px"></p>
+                    </div>
+{#                    <div class="row">#}
+{#                        <div id="extract-buttons" style="margin-bottom:20px;width: 80%;display: inline-block;"></div>#}
+{#                    </div>#}
+                </div>
+            </div>
+{#            根据setting的一级按钮#}
+            <div class="row" style="margin-bottom: 10px">
+                <div class="col-md-offset-1">
+                    <div id="relation_buttons" style="margin-bottom:20px;width: 80%;display: inline-block;">
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 10px">
+                <div class="col-md-offset-1">
+                    <div class="table-responsive" style="width: 80%;">
+                        <table id="realtion_table" class="table">
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" >
+                <div class="col-md-offset-2">
+                    <button id="nextRelation" data-toggle="tooltip" data-placement="bottom"  title="Alt+Q" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">下一个</span></button>
+                    <button id="collectRelation" data-toggle="tooltip" data-placement="bottom"  title="Alt+C" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">收藏</span></button>
+                    <button id="discollectRelation" class="btn btn-circle-micro"style="display:none; border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">取消收藏</span></button>
+                    <button id="resetRelation" data-toggle="tooltip" data-placement="bottom"  title="Alt+R" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">重置</span></button>
+                    <button id="dirtyDataRelation" data-toggle="tooltip" data-placement="bottom"  title="Alt+D" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">脏数据</span></button>
+                    <button id="feedbackRelation" data-toggle="modal" data-target="#FeedBack" class="btn btn-circle-micro" style="border-radius:25px; width: 14%;height: 50px;background-color: #333333"><span style="font-size: 16px;color: #FBC200">问题反馈</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-left: 20px">
+            <div class="progress col-md-offset-1" style="margin-top:40px;width:75%">
+                <div id="progress_line_is_labeled" class="progress-bar" role="progressbar" aria-valuenow="60"
+                    aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    <span id="is_labeled_content_count" ></span>
+                </div>
+                <div id="progress_line_unlabeled"  role="progressbar" aria-valuenow="60"
+                    aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                     <span id="un_labeled_content_count" ></span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript_file %}
+    <script src="{% static 'js/fpm/main.js' %}"></script>
+    <script src="{% static 'js/hero-slider-main.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+{% endblock %}
+{% block modal %}
+<div class="modal fade" id="FeedBack" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">问题反馈</h4>
+      </div>
+      <div class="modal-body">
+          <form id="feedbackForm" enctype="multipart/form-data" >
+              <div class="form-group row">
+                    <label class="col-md-2" for="crawler_app">附件上传</label>
+                    <div class="col-md-10">
+                        <input class="form-control" name="feedback_file" id="feedback_file" type="file" />
+                    </div>
+              </div>
+
+              <div class="form-group row">
+                  <label class="col-md-2" for="feedback_question">详细描述</label>
+                  <div class="col-md-10">
+                      <textarea style="resize: none;" id="feedback_question" name="feedback_question" class="form-control" rows="10"></textarea>
+                  </div>
+              </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="submit_feedback" onclick="submit_feedback();" class="btn btn-danger">提交反馈</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+    $(function () {
+        $("[data-toggle='tooltip']").tooltip({ trigger:"hover focus" });
+    });
+    function add_1() {
+        $("#realtion_table").append(
+            '<tr>\n' +
+            '<td>产品n</td>' +
+            '<td>nn/nn/n2013</td>' +
+            '<td>待发货n</td>' +
+            '</tr>'
+        );
+    }
+
+
+    $(document).ready(
+        function() {
+            get_new_content();
+        }
+    );
+
+    var settings_color_list,settings_color,relation_max_td_length,relation_keyposition_Temp_list_render, relation_keyposition_Temp_list, relationTableTemp, content, content_id, contentTemp, settings,settings_id,flag_collection,collect_content_id,color_list,flag_history,history_id,history_id_List,collection_id2content_idList;
+    color_list = {
+        label1:"#D44545",
+        label2:"#FBC200",
+        label3:"#84B518",
+        label4:"#66C9BE",
+        label5:"#5CB9E0",
+        label6:"#A6A8EF",
+        label7:"#E19AD1",
+        label8:"#555",
+        label9:"#8a6d3b",
+        label10:"#832594",
+    };
+    settings_color_list=[]
+    {#  计数tr,td  #}
+    var relationTable_Tr_Num=0;
+    var relationTable_Td_Num = 0;
+    {# 存放结果 #}
+    relation_keyposition_Temp_list = [];
+    flag_collection = {{ flag_collection|safe }};
+    flag_history = {{ flag_history|safe }};
+    history_id_List = [];
+    history_id_List = {{ history_id_List|safe }}
+    collection_id2content_idList = [];
+    collection_id2content_idList = {{ collection_id2content_id_List|safe }};
+    keywordPositionList =[];
+    classList =[];
+    var nextRelationBtn = document.getElementById("nextRelation");
+    nextRelationBtn.onclick = function () {
+        nextRelation();
+    };
+    var collectRelationBtn = document.getElementById("collectRelation");
+    collectRelationBtn.onclick = function () {
+        collect();
+    };
+    var resetRelationBtn = document.getElementById("resetRelation");
+    resetRelationBtn.onclick = function () {
+        resetRelation();
+    };
+    var nextClassfyBtn = document.getElementById("nextClassfy");
+    nextClassfyBtn.onclick = function () {
+        nextClassfy();
+    };
+    var collectClassfyBtn = document.getElementById("collectClassfy");
+    collectClassfyBtn.onclick = function () {
+        collect();
+    };
+    var discollectClassfyBtn = document.getElementById("discollectClassfy");
+    discollectClassfyBtn.onclick = function () {
+        discollect();
+    };
+    var resetClassfyBtn = document.getElementById("resetClassfy");
+    resetClassfyBtn.onclick = function () {
+        resetClassfy();
+    };
+
+    var collectExtractBtn = document.getElementById("collectExtract");
+    collectExtractBtn.onclick = function () {
+        collect();
+    };
+    var discollectExtractBtn = document.getElementById("discollectExtract");
+    discollectExtractBtn.onclick = function () {
+        discollect();
+    };
+    var resetExtractBtn = document.getElementById("resetExtract");
+    function resetExtract () {
+        keywordPositionList = [];
+        extractRender();
+    };
+    resetExtractBtn.onclick = function () {
+        resetExtract();
+    };
+    var nextExtractBtn = document.getElementById("nextExtract");
+    nextExtractBtn.onclick = function () {
+        nextExtract();
+    };
+    var dirtyDataExtractBtn = document.getElementById("dirtyDataExtract");
+    dirtyDataExtractBtn.onclick = function () {
+        DirtyDataExtract();
+    };
+    var dirtyDataClassfyBtn = document.getElementById("dirtyDataClassfy");
+    dirtyDataClassfyBtn.onclick = function () {
+        DirtyDataClassfy();
+    };
+    var dirtyDataRelationBtn = document.getElementById("dirtyDataRelation");
+    dirtyDataRelationBtn.onclick = function () {
+        DirtyDataExtract();
+    };
+    function get_new_content(id) {
+    //判断是否来自收藏页面
+    // 第一次跳转过来 用1.from是否为1；来渲染“收藏”
+    // 再用用 2.#settings_id 是否是收藏两个字
+    // 如果from 不为空
+    if (flag_collection){
+        $('#settings_name').text("收藏")
+    };
+    settings_name = $('#settings_name').text();
+    if(settings_name =="收藏"){
+        flag_collection=1;
+        item = collection_id2content_idList[0];
+        console.log(item);
+        collect_content_id = item.content_id;
+        $('#discollectClassfy').show();
+        $('#collectClassfy').hide()
+    }else {
+        collection_id2content_idList = [];
+        flag_collection = 0
+    }
+    if (flag_history){
+        $('#settings_name').text("历史")
+    };
+    settings_name = $('#settings_name').text();
+    if (settings_name=="历史"){
+        flag_history=1;
+        item = history_id_List[0];
+        console.log(item);
+        history_id = item.id
+    }else {
+        history_id_List = [];
+        flag_history = 0
+    }
+
+    data = {
+        id: id,
+        flag_collection: flag_collection,
+        flag_history:flag_history,
+        collect_content_id :collect_content_id,
+        history_id:history_id,
+        settings_id : $('#settings_id').text()
+    };
+    $.post("/get_new_content/",data,function(result){
+        if (!result.content_id) {//没有contentid返回
+            if (result.message == '已完成') {//任务组完成
+                get_new_content()
+            } else {
+                $("#remain_count").text(0);
+                alert("暂无任务，请选择新的任务");
+                window.location.href='/mytask';
+            }
+            return
+        }
+        // 进度条
+        is_label_percentage = result.is_label_percentage;
+        un_label_percentage = result.un_label_percentage;
+        is_labeled_content_count = result.is_labeled_content_count;
+        un_labeled_content_count = result.un_labeled_content_count;
+        all_content_count = result.all_content_count;
+        $('#progress_line_is_labeled').css('width',is_label_percentage);
+        $('#progress_line_un_labeled').css('width',un_label_percentage);
+        $('#is_labeled_content_count').text(is_labeled_content_count);
+        $('#un_labeled_content_count').text(un_labeled_content_count);
+
+        settings = result.settings;
+        settings.settings=eval(result.settings.settings);
+        if (!relation_max_td_length) {
+            for (var i in settings.settings) {
+                for (var key in settings.settings[i]) {
+                    var max = settings.settings[i][key].length
+                    if (!relation_max_td_length) {
+                        relation_max_td_length = max
+                    }else if (relation_max_td_length<max) {
+                        relation_max_td_length = max
+                    }
+                }
+            }
+        }
+        if (result.is_collected){
+            $('#discollectClassfy').show();
+            $('#collectClassfy').hide();
+            $('#discollectExtract').show();
+            $('#collectExtract').hide();
+        }else {
+            $('#discollectClassfy').hide();
+            $('#collectClassfy').show();
+            $('#discollectExtract').hide();
+            $('#collectExtract').show();
+        }
+
+        if(settings.setting_type=='extract') {
+            $("#classfy").css("display","none");
+            $("#extract").css("display","initial");
+            $("#relation").css("display","none");
+            content = result.content;
+            content_id = result.content_id;
+            contentTemp = "";
+            if (result.keypositions) {
+                keywordPositionList=[];
+                keywordPositionListTemp=JSON.parse(result.keypositions);
+                for (i in keywordPositionListTemp) {
+                    if (keywordPositionListTemp[i].class_id) {
+                        keywordPositionList.push(keywordPositionListTemp[i])
+                    }
+                }
+                iskeypositionsValid = true;
+                for(i in keywordPositionList) {
+                    for(ii in keywordPositionList){
+                        if(i != ii) {
+                            if(keywordPositionList[i].start >= keywordPositionList[ii].start && keywordPositionList[i].start <= keywordPositionList[ii].end) {
+                                keywordPositionList=[];
+                                iskeypositionsValid = false;
+                                break;
+                            }
+                            if(keywordPositionList[i].end >= keywordPositionList[ii].start && keywordPositionList[i].end <= keywordPositionList[ii].end) {
+                                keywordPositionList=[];
+                                iskeypositionsValid = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (!iskeypositionsValid) {
+                        break;
+                    }
+                }
+            } else {
+                keywordPositionList=[];
+            }
+            extractRender();
+        } else if (settings.setting_type=='classfy') {
+            $("#extract").css("display","none");
+            $("#relation").css("display","none");
+            $("#classfy").css("display","initial");
+            content = result.content;
+            content_id = result.content_id;
+            class_list_temp = eval(result.class_list)
+{#            class_list_temp = JSON.parse(result.class_list);#}
+            console.log(class_list_temp)
+            classList = [];
+            for (var i in class_list_temp) {
+                classList.push((parseInt(indexOf(settings.settings,class_list_temp[i]))+1))
+            }
+            classfyRender();
+        } else if (settings.setting_type == 'relation'){
+            $("#extract").css("display","none");
+            $("#classfy").css("display","none");
+            $("#relation").css("display","initial");
+            content = result.content;
+            content_id = result.content_id;
+            relationTableTemp = "";
+            // str -> json
+            relation_keyposition_Temp_list_render =JSON.parse(result.keypositions);
+            if (!relation_keyposition_Temp_list_render){
+                relation_keyposition_Temp_list =[]
+                relation_keyposition_Temp_list_render =[]
+            }
+            relationRender();
+        }
+        $("#remain_count").text(result.remain_count);
+        begin_time = Date.parse(new Date());
+        localStorage.setItem('begin_time', JSON.stringify(begin_time))
+    });
+}
+
+</script>
+
+
+{% endblock %}

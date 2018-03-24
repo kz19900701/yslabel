@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 
+<title>Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="description" content="Bootstrap, Landing page, Responsive, Businnes, Portfolio, Corporate"> 
+<meta name="Author" content="">  
+<!-- CSS Files -->
+<link href="/static/css/bootstrap.css" rel="stylesheet" media="screen">
+<link href="/static/css/font-awesome.min.css" rel="stylesheet">
+<link href="/static/fonts/icon-7-stroke/css/pe-icon-7-stroke.css" rel="stylesheet">
+<link href="/static/css/animate.css" rel="stylesheet" media="screen">
+<link href="/static/css/owl.theme.css" rel="stylesheet">
+<link href="/static/css/owl.carousel.css" rel="stylesheet">
+ 
+<link href="/static/css/styles.css" rel="stylesheet" media="screen">
+
+<!-- Google Fonts --> 
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Alegreya+Sans:100,300,400,700' rel='stylesheet' type='text/css'>
+
+
+<!-- Font Awesome -->
+<link href="/static/css/font-awesome.min.css" rel="stylesheet">
+</head>
+  
+<body data-spy="scroll" data-target="#navbar-scroll">
+ 
+<div id="top"></div>
+
+<!-- NAVIGATION -->
+<div id="menu">
+	<nav class="navbar-wrapper navbar-default" role="navigation">
+		<div class="container">
+			  <div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-themers">
+				  <span class="sr-only">Toggle navigation</span>
+				  <span class="icon-bar"></span>
+				  <span class="icon-bar"></span>
+				  <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand site-name" href="#top"><img src="/static/images/logo.png" alt="logo"></a>
+			  </div>
+
+			  <div id="navbar-scroll" class="collapse navbar-collapse navbar-themers navbar-right">
+				<ul class="nav navbar-nav">
+					<li><a href="/main">主页</a></li>
+					<li><a href="/test_app_paihangbang_entity">命名实体识别</a></li>
+					<li><a href="/test_app_paihangbang_yuqing">舆情信息分类</a></li>
+                    <li><a href="/test_app_paihangbang_susong">诉讼信息分类</a></li>
+                    <li><a href="/test_app_paihangbang_negative">负面舆情分类</a></li>
+{#					<li><a href="#screenshot">Screenshots</a></li>#}
+{#					<li><a href="#clients">Clients</a></li>#}
+{#					<li><a href="#package">Package</a></li>#}
+{#					<li><a href="#download">Download</a></li>#}
+				</ul>
+			  </div>
+		</div>
+	</nav>
+</div>
+ 
+<div class="fullscreen landing parallax banner" data-img-width="2000" data-img-height="1325" data-diff="100">
+	
+	<div class="overlay">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-6">
+						<h1 class="wow fadeInLeft">
+                            负面舆情分类
+						</h1>
+                    <div class="landing-text wow fadeInLeft">
+                        <p>根据文本内容来进行分类。</p>
+						<p>经过大家的努力标注，我们已基于深度学习的自然语言处理技术针对负面舆情实现了对文本内容进行分类的功能。分类类型包含：负面、争议、非负。</p>
+					</div>				  
+					<div class="landing-text wow fadeInLeft">
+						<div class="subscribe-form wow fadeInUp">
+                            <form class="news-letter mailchimp" action="" role="form" method="POST">
+                                <input type="hidden" name="u" value="">
+                                <input type="hidden" name="id" value="">
+                                <textarea id="input_content" class="form-control" type="email" name="" placeholder="你可以输入一句话..." required="" style="width:462px;">经重庆市食品药品检验检测研究院检验，标示为江西樟树天齐堂中药饮片有限公司生产的1批次党参不合格。不合格项目为性状。</textarea>
+                                <button type="button" class="subscribe-btn btn" onclick="test_negative();">试一试</button>
+                            </form>
+                        </div>
+					</div>
+				</div>
+				
+				<!-- phone image -->
+				<div class="col-md-6">
+				<img src="/static/images/header-phone.png" alt="phone" class="header-phone img-responsive wow fadeInRight">
+				</div>
+			</div>
+		</div> 
+	</div> 
+</div>
+   <!-- intro section -->
+<div id="package">
+	<div class="container">
+		<div class="text-center">
+
+			<!-- pricing title -->
+			<h2 class="wow fadeInLeft animated" style="visibility: visible; animation-name: fadeInLeft; -webkit-animation-name: fadeInLeft;">贡献排行榜</h2>
+			<div class="title-line wow fadeInRight animated" style="visibility: visible; animation-name: fadeInRight; -webkit-animation-name: fadeInRight;"></div>
+		</div>
+		<div class="row package-option">
+
+			<!-- package 1 -->
+			<div class="col-sm-4">
+			  <div class="price-box wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp; -webkit-animation-name: fadeInUp;">
+			   <div class="price-heading text-center">
+
+
+					<!-- package name -->
+					<h3>第一名：弘毅</h3>
+			   </div>
+
+			   <!-- price -->
+				<div class="price-group text-center">
+					<span class="time">贡献度</span>
+					<span class="price">32.25</span>
+				</div>
+
+				<!-- package features -->
+			   <ul class="price-feature text-center">
+{#				  <li>耗时<strong>165分钟</strong></li>#}
+                   <li>正确率&nbsp&nbsp<strong>72%</strong></li>
+                   <li>耗时&nbsp&nbsp<strong>265分钟</strong></li>
+			   </ul>
+
+			   <!-- package button -->
+			   <div class="price-footer text-center">
+				 <a class="btn btn-price" href="#">为他打Call</a>
+				</div>
+			  </div>
+			</div>
+
+            <div class="col-sm-4">
+			  <div class="price-box wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp; -webkit-animation-name: fadeInUp;">
+			   <div class="price-heading text-center">
+
+
+					<!-- package name -->
+					<h3>第二名：钟灵</h3>
+			   </div>
+
+			   <!-- price -->
+				<div class="price-group text-center">
+					<span class="time">贡献度</span>
+					<span class="price">30.03</span>
+{#					<span class="time">100%</span>#}
+				</div>
+
+				<!-- package features -->
+			   <ul class="price-feature text-center">
+{#				  <li>耗时<strong>143分钟</strong></li>#}
+                   <li>正确率&nbsp&nbsp<strong>88%</strong></li>
+                   <li>耗时&nbsp&nbsp<strong>244分钟</strong></li>
+			   </ul>
+
+			   <!-- package button -->
+			   <div class="price-footer text-center">
+				 <a class="btn btn-price" href="#">为她打Call</a>
+				</div>
+			  </div>
+			</div>
+
+            <div class="col-sm-4">
+			  <div class="price-box wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp; -webkit-animation-name: fadeInUp;">
+			   <div class="price-heading text-center">
+
+
+					<!-- package name -->
+					<h3>第三名：一休</h3>
+			   </div>
+
+			   <!-- price -->
+				<div class="price-group text-center">
+					<span class="time">贡献度</span>
+					<span class="price">20.89</span>
+				</div>
+
+				<!-- package features -->
+			   <ul class="price-feature text-center">
+{#				  <li>耗时<strong>140分钟</strong></li>#}
+                   <li>正确率&nbsp&nbsp<strong>84%</strong></li>
+                   <li>耗时&nbsp&nbsp<strong>183分钟</strong></li>
+			   </ul>
+
+			   <!-- package button -->
+			   <div class="price-footer text-center">
+				 <a class="btn btn-price" href="#">为他打Call</a>
+				</div>
+			  </div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 col-sm-12 text-center" style="margin-top:70px;">
+						<h2 class="wow fadeInLeft">继续感谢</h2>
+						<p class="download-text wow fadeInRight">为模型贡献的人还有：戴拉、道竹、蝶梦、古云、华山、江枫、海角、华山、江蓠、绿晓、曼路、芹菜、三元、虚竹、子牙。在这里表示诚挚感谢！</p>
+						<div class="btn-section">
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+
+  
+<!-- footer -->
+<footer id="footer">
+	<div class="container">
+		<div class="col-sm-4 col-sm-offset-4">
+			<!-- social links -->
+			<div class="text-center wow fadeInUp" style="font-size: 14px;">Copyright &copy; 2018.<a target="_blank" href="http://www.yscredit.com">有数金服</a> All rights reserved.</div>
+			<a href="#" class="scrollToTop"><i class="fa fa-arrow-circle-o-up"></i></a>
+		</div>	
+	</div>	
+</footer>
+	
+	<!-- javascript files -->
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/custom.js"></script>
+    <script src="/static/js/jquery.sticky.js"></script>
+	<script src="/static/js/wow.min.js"></script>
+	<script src="/static/js/owl.carousel.min.js"></script>
+	<script src="/static/js/ekko-lightbox-min.js"></script>
+    <script src="/static/js/test.js"></script>
+	<script type="text/javascript">
+	$(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) { event.preventDefault(); $(this).ekkoLightbox(); }); 
+	</script>
+	<script>
+		new WOW().init();
+	</script>
+  </body>
+</html>

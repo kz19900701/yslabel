@@ -1,0 +1,84 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>用户登录</title>#}
+{#</head>#}
+{#<body>#}
+{#    <form action="{% url 'login' %}" method="post">#}
+{#        <input type="text" name="username"/>#}
+{#        <input type="password" name="password"/>#}
+{#        <input type="hidden" name="next" value="{{ nextstep }}"/>#}
+{#        <input type="submit" value="提交">#}
+{#    </form>#}
+{#</body>#}
+{#</html>#}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>飞标样本标注平台</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="{% static 'css/lib/bootstrap-table.min.css' %}" type="text/css" rel="stylesheet">
+    <link href="{% static 'css/lib/bootstrap.min.css' %}" type="text/css" rel="stylesheet">
+    <link href="{% static 'img/feibiao.jpg' %}" type="image/x-icon" rel="icon"/>
+
+    <link href="{% static 'css/body.css' %}" type="text/css" rel="stylesheet">
+</head>
+
+<body background="{% static 'img/login_background.png' %}" style="background-size:100%">
+
+<nav class="navbar navbar-inverse navbar-fixed-top" style="height: 50px">
+    <div class="container" >
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" >
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> 登陆</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+{#background="{% static 'img/login_background.png' %}"#}
+<div class="container" >
+    <div class="row  text-center" style="margin-top:25%;">
+        <div class="col-md-offset-4 col-md-4 col-sm-12 col-sm-offset-0" style="filter:alpha(opacity=50);rgba(255, 255, 255, 0.8); opacity: 0.9;border-radius: 10px; ">
+            <form class=" form-signin" method="post" name="loginForm" action="{% url 'login' %}">
+{#                {% csrf_token %}#}
+                <div class="row"  style="margin-top: 5px;">
+                    <label for="username" class="sr-only">用户名</label>
+                    <input style="width: 325px;height: 40px" type="text" id="username" class="form-control" style="margin-top: 5px;" name="username" placeholder="请输入用户名" required
+                           autofocus>
+                </div>
+                <div class="row" style="margin-top: 10px;">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input style="width: 325px;height: 40px" type="password" id="inputPassword" name="password" class="form-control" placeholder="请输入密码"
+                           required>
+                </div>
+                <div class="row" style="margin-top: 10px"></div>
+                <div class="row">
+                    <button class="btn btn-lg btn-warning btn-block" type="submit" style="width: 325px;height: 40px">登&nbsp&nbsp&nbsp陆</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div> <!-- /container -->
+
+
+<script src="{% static 'js/lib/jquery.min.js' %}"></script>
+<script src="{% static 'js/lib/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/lib/bootstrap-table-zh-CN.min.js' %}"></script>
+<script src="{% static 'js/lib/bootstrap-table.min.js' %}"></script>
+</body>
+</html>

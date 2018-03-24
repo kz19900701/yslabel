@@ -1,0 +1,110 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}index{% endblock %}
+{% block sidenav %}
+    <li class="active" style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'index' %}"> 开始标注<div>            </div></a></li>
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'mytask' %}"> 我的任务</a></li>
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myCollection' %}"> 我的收藏</a></li>
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myHistory' %}"> 我的历史</a></li>
+    {% if request.user.is_superuser %}
+        <li  style="width: 150px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'go2check_feedback_html' %}"> 查看反馈<span id="badge" class="badge">{{ badge_num }}</span></a></li>
+    {% else %}
+        <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myFeedBack' %}"> 我的反馈</a></li>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="row" style="margin-top: 140px;" >
+        <div class="container">
+            <div class="col-md-offset-5" style="margin-bottom: 40px">
+                <h1 style="font-size: 24px;color: #666666">任务总览</h1>
+            </div>
+{#            <form method="post" action="{% url 'StartLabel' %}" role="form">#}
+                <div class="form-group col-md-offset-4" style="margin-top: 20px;;margin-bottom: 20px;" >
+                    <h4><span  class="glyphicon glyphicon-tasks" style="color: #2c343b;"></span>&nbsp&nbsp&nbsp当前批次 :
+                        <span id="settings_name">{{ settings_name }}</span>
+                    </h4>
+                </div>
+                <div class="col-md-offset-4" style="margin-top: 20px;;margin-bottom: 20px;" ><h4><span  class="glyphicon glyphicon-check" style="color: #FBC200;"></span>&nbsp&nbsp&nbsp我已完成任务组 : <span id="Count_complete_group">{{ Count_complete_group }}</span> 组</h4> </div>
+                <div class="col-md-offset-4" style="margin-top: 20px;;margin-bottom: 20px;"><h4><span  class="glyphicon glyphicon-question-sign" style="color: #EE2D2D;"></span>&nbsp&nbsp&nbsp我未完成任务数量 :  <span id="Count_not_complete_content">{{ Count_not_complete_content }}</span> 条</h4> </div>
+            <div class="col-md-offset-4" style="margin-top: 20px;;margin-bottom: 20px;"><h4><span  class="glyphicon glyphicon-download-alt" style="color: #66afe9;"></span>&nbsp&nbsp&nbsp标注文档 :
+                <button class="btn btn-xs btn-danger" type="button" ><a  target="_Blank" id="settings2doc_file" href="{{ download_doc_file_path }}" style="color: #ffffff;text-decoration: none" ><span>下&nbsp&nbsp载</span></a></button>
+            </h4> </div>
+                <div class="col-md-offset-4"style="margin-top: 68px;;margin-bottom: 20px;" >
+                    <button  id="startlabel" type="button"
+                            class="btn btn-circle-micro"
+                            style="display:none;border-radius:25px; width: 280px;height: 50px;background-color: #333333;"
+                             onclick="go2label();"
+                    ><span style="font-weight:bold;font-size: 20px;color: #FBC200">开始标注</span></button>
+                    <button id="choicetask" type="button"
+                            class="btn btn-circle-micro"
+                            style="display:none;border-radius:25px; width: 280px;height: 50px;background-color: #333333"
+                            onclick="window.location.href='mytask'"
+                    ><span style="font-size: 20px;color: #FBC200">领取任务</span></button>
+                </div>
+{#            </form>#}
+            <div style="margin-bottom: 100px"></div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript_file %}
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+{#   页面加载完成后执行 #}
+    $(function () {
+        flag_label()
+    });
+    function flag_label() {
+        flag_label = {{ flag_label|safe }};
+        if (flag_label==1){
+            $('#startlabel').show();
+            $('#choicetask').hide();
+        }else {
+            $('#startlabel').hide();
+            $('#choicetask').show();
+        }
+    }
+
+    function go2label() {
+        settings_id = {{ settings_id }}
+        settings_name = $('#settings_name').text()
+        window.location.href = 'StartLabel/settings_id='+settings_id+'&'+'settings_name='+settings_name
+    }
+
+    function settings_query() {
+        var settings_id = $('#settings_id option:selected').val();
+        data = {
+            settings_id:settings_id,
+        }
+        url = '/index_query_api';
+        $.ajax({
+            type:"post",
+            url:url,
+            data:data,
+            success:function (result) {
+                $("#Count_complete_group").html(result.Count_complete_group)
+                $("#Count_not_complete_content").html(result.Count_not_complete_content)
+            }
+        });
+    }
+    {# 标注 #}
+{#    function go2main() {#}
+{#        url = '/StartLabel';#}
+{#        var settings_id = $('#settings option:selected').val();#}
+{#        data = {#}
+{#            settings_id:settings_id#}
+{#        }#}
+{#        $.ajax({#}
+{#            type:"post",#}
+{#            url:url,#}
+{#            data:data,#}
+{#            success:function (result) {#}
+{#            }#}
+{#        });#}
+{#    }#}
+    {# 领取任务   #}
+
+</script>
+{% endblock %}
+

@@ -1,0 +1,40 @@
+{% extends 'monitor/base.html' %}
+{% load static %}
+{% block title %}Monitor{% endblock %}
+{% block sidenav %}
+{% endblock %}
+{% block content %}
+<div class="row" style="margin-top: 10px;" >
+        <div class="container col-md-11" >
+{#            <ul id="myTab" class="nav nav-tabs" >#}
+{#                <li class="active">#}
+{#                    <a href="#my_collection" data-toggle="tab"><h2>我的收藏</h2></a>#}
+{#                </li>#}
+{#            </ul>#}
+{#            <hr>#}
+{#            <div id="toolbar">#}
+{#                <button id="get_collection_selections" on href="javascript:void(0);" onclick="getAllSelections_Collection();"  class="btn btn-success btn-info" >查看</button>#}
+{#                <button id="del_collection_selections" href="javascript:void(0);"  onclick="delAllSelections_Collection();" class="btn btn-danger btn-info" >删除</button>#}
+{#            </div>#}
+
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="monitor">
+                    <table id="MonitorTable"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript_file %}
+    <script src="{% static 'js/monitor/monitor_list.js' %}"></script>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+{#   页面加载完成后执行 #}
+    $(function () {
+        MonitorTable();
+    });
+</script>
+{% endblock %}
+

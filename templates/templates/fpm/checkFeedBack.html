@@ -1,0 +1,133 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}查看反馈{% endblock %}
+{% block sidenav %}
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'index' %}"> 开始标注<div>            </div></a></li>
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'mytask' %}"> 我的任务</a></li>
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myCollection' %}"> 我的收藏</a></li>
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myHistory' %}"> 我的历史</a></li>
+    {% if request.user.is_superuser %}
+        <li  class="active" style="width: 150px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'go2check_feedback_html' %}"> 查看反馈<span id="badge" class="badge">{{ badge_num }}</span></a></li>
+    {% else %}
+        <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myFeedBack' %}"> 我的反馈</a></li>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="row" style="margin-top: 10px;" >
+        <div class="container col-md-11" >
+            <ul id="myTab" class="nav nav-tabs" >
+                <li class="active">
+                    <a href="#check_feedback" data-toggle="tab"><h2>查看反馈信息</h2></a>
+                </li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="check_feedback">
+                    <table id="CheckFeedBackTable"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block modal %}
+    <!-- 爬虫选择弹出框 -->
+    <div id="CheckFeedBackTableModal" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">FeedBack 详细信息</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                                <!-- Table -->
+                        <div class="row">
+                                <div class="col-md-12">
+                                    <form class="form-horizontal" enctype="multipart/form-data" method="post" role="form" id="task_form" name="task_form" action="">
+                                        <div id="task_detail_div" class="row ">
+                                            <div class="form-group row">
+                                                <label class="col-md-2 control-label" for="fb_id">序号</label>
+                                                <div class="col-md-10">
+                                                    <input readonly="readonly" class="form-control" id="fb_id" name="fb_id"
+                                                           type="text"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-md-2 control-label" for="content">正文</label>
+                                                <div class="col-md-10">
+                                                    <textarea style="resize: none" readonly="readonly" class="form-control" id="content" type="text" rows="6"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-2 control-label" for="create_datetime">创建时间</label>
+                                                <div class="col-md-10">
+                                                    <input readonly="readonly" class="form-control" id="create_datetime" type="text"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-2 control-label" for="feedback_question">问题反馈</label>
+                                                <div class="col-md-10">
+                                                    <textarea style="resize: none" readonly="readonly" class="form-control" id="feedback_question" type="text" rows="6"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-2 control-label" for="feedback_file_submit">附件</label>
+
+                                                <div class="col-md-7">
+{#                                                    <input class="form-control " id="feedback_file_submit_str" type="text" readonly="readonly" value=""/></div>#}
+{#                                                <div>#}
+                                                    <button id="feedback_file_submit_btn" type="button"
+                                                       class="btn btn-secondary" onclick="feedback_file_submit();"
+                                                       >下载</button>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group row">
+                                                    <label class="col-md-2 control-label" for="feedback_reply_file">附件上传</label>
+                                                    <div class="col-md-7">
+{#                                                        <input class="form-control " id="feedback_file_reply_str" type="text" readonly="readonly" value=""/>#}
+                                                        <input class="form-control" name="feedback_reply_file" id="feedback_reply_file" type="file" />
+                                                    </div>
+                                                    <div>
+                                                        <button id="feedback_file_reply_btn" type="button"
+                                                           class="btn btn-secondary" onclick="feedback_file_reply();">下载</button>
+                                                    </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-2 control-label" for="feedback_answer">反馈回复</label>
+                                                <div class="col-md-10">
+                                                    <textarea style="resize: none" class="form-control" id="feedback_answer" name="feedback_answer" rows="6" ></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button id="reply_submit" type="button" class="btn btn-danger" onclick="reply_submit_fnc();">提交并保存</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+{% endblock %}
+{% block javascript_file %}
+    <script src="{% static 'js/fpm/CheckFeedBack.js' %}"></script>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+{#   页面加载完成后执行 #}
+    $(function () {
+        CheckFeedBackTable();
+    });
+
+
+
+</script>
+{% endblock %}
+

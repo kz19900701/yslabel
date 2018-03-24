@@ -1,0 +1,54 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}我的收藏{% endblock %}
+{% block sidenav %}
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'index' %}"> 开始标注<div>            </div></a></li>
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'mytask' %}"> 我的任务</a></li>
+    <li  class="active" style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myCollection' %}"> 我的收藏</a></li>
+    <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myHistory' %}"> 我的历史</a></li>
+    {% if request.user.is_superuser %}
+        <li  style="width: 150px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'go2check_feedback_html' %}"> 查看反馈<span id="badge" class="badge">{{ badge_num }}</span></a></li>
+    {% else %}
+        <li  style="width: 116px"><a style="font-weight: bold;font-family: '微软雅黑';font-size: 18px" href="{% url 'myFeedBack' %}"> 我的反馈</a></li>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <div class="row" style="margin-top: 10px;" >
+        <div class="container col-md-11" >
+            <ul id="myTab" class="nav nav-tabs" >
+                <li class="active">
+                    <a href="#my_collection" data-toggle="tab"><h2>我的收藏</h2></a>
+                </li>
+            </ul>
+            <hr>
+            <div id="toolbar">
+                <button id="get_collection_selections" on href="javascript:void(0);" onclick="getAllSelections_Collection();"  class="btn btn-success btn-info" >查看</button>
+                <button id="del_collection_selections" href="javascript:void(0);"  onclick="delAllSelections_Collection();" class="btn btn-danger btn-info" >删除</button>
+            </div>
+
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="my_collection">
+                    <table id="MyCollectionTable"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascript_file %}
+    <script src="{% static 'js/fpm/myCollection.js' %}"></script>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+{#   页面加载完成后执行 #}
+    $(function () {
+        MyCollectionTable();
+    });
+
+
+
+</script>
+{% endblock %}
+
